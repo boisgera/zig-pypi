@@ -1,0 +1,21 @@
+name: build
+on: [push]
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Activate Conda environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: zig-pypi
+          environment-file: environment.yml
+
+      - name: Run make_wheels.py
+        run: python make_wheels.py
